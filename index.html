@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theory Atlas — Digital Cabinet of Fascination & Knowledge</title>
+  <meta name="description" content="Explore an archive of fascinating theories, philosophical paradoxes, scientific claims, mysteries, and historical events.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <header>
+      <h1>Theory Atlas</h1>
+      <p class="subtitle">An atlas of ideas, mysteries, stories and human knowledge.</p>
+    </header>
+
+    <main>
+      <section class="controls-area">
+        <div class="search-box-wrapper">
+          <input type="text" id="search-input" placeholder="Search by title, tags, description or status..." autocomplete="off">
+          <span class="search-icon">🔍</span>
+        </div>
+        <div class="category-filters" id="category-filters">
+          <!-- Dynamically populated category buttons -->
+        </div>
+      </section>
+
+      <section class="cards-grid" id="cards-grid">
+        <!-- Dynamically rendered theory cards -->
+      </section>
+    </main>
+
+    <footer>
+      <p>Theory Atlas — A personal archive of ideas and stories.</p>
+    </footer>
+  </div>
+
+  <!-- Detail Modal Window -->
+  <div class="modal-overlay" id="modal-overlay"></div>
+  <div class="detail-modal" id="detail-modal" role="dialog" aria-modal="true">
+    <button class="modal-close-btn" id="modal-close-btn" aria-label="Close modal">&times;</button>
+    <div class="modal-content-area" id="modal-content-area">
+      <!-- Dynamically structured detail content -->
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

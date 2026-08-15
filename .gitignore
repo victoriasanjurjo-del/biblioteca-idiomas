@@ -1,0 +1,33 @@
+# --- Base de datos local ---
+*.db
+*.sqlite
+*.sqlite3
+language_library.db
+
+# --- Entornos virtuales (Evita que la IA e indexadores lean librerías externas) ---
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# --- Python & Caché ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# --- Entorno de desarrollo / IDEs / Indexadores de IA ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# --- Reportes de prueba y empaquetado (Repomix, etc.) ---
+repomix-output.txt
+*.log
+dist/
+build/
+*.egg-info/

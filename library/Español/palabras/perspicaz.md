@@ -1,3 +1,0 @@
-# Perspicaz
-
-Perspicaz

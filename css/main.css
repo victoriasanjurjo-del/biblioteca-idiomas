@@ -1,0 +1,198 @@
+/* ==========================================================================
+   Main Layout & Responsive Styles — Language Library
+   ========================================================================== */
+
+/* Animación de entrada de páginas / vistas */
+.fade-in {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Visibilidad de vistas */
+.view-section {
+  display: none;
+}
+
+.view-section.active {
+  display: block;
+}
+
+/* Grid de selector de iconos/banderas en modal */
+.flag-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-app);
+}
+
+.flag-opt-btn {
+  font-size: 1.5rem;
+  padding: 6px;
+  border-radius: var(--radius-xs);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flag-opt-btn:hover {
+  background-color: var(--color-primary-alpha);
+  transform: scale(1.2);
+}
+
+.flag-opt-btn.selected {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* Barra de progreso de flashcards */
+.flashcard-progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: var(--border-subtle);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.flashcard-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+/* Menú contextual de tarjeta o idioma */
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: var(--bg-modal);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  padding: 6px;
+  min-width: 140px;
+  z-index: 30;
+  display: none;
+}
+
+.dropdown-menu.active {
+  display: block;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.dropdown-item:hover {
+  background-color: var(--color-primary-alpha);
+  color: var(--color-primary);
+}
+
+.dropdown-item.danger {
+  color: var(--status-error);
+}
+.dropdown-item.danger:hover {
+  background-color: rgba(200, 75, 49, 0.1);
+}
+
+/* Sidebar overlay en móvil */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: var(--bg-overlay);
+  z-index: 15;
+}
+
+/* --- Media Queries Responsive --- */
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay.open {
+    display: block;
+  }
+
+  .mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .page-wrapper {
+    padding: 20px 16px;
+  }
+
+  .editor-split-view {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-pane {
+    border-right: none;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .language-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .language-hero-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    padding: 10px 14px;
+  }
+
+  .category-tabs-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .category-tabs {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .tab-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}

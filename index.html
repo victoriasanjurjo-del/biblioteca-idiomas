@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Language Library — Tu biblioteca personal de idiomas y vocabulario con estética natural y notas en Markdown.">
+  <title>Language Library — Biblioteca de Idiomas</title>
+
+  <!-- Google Fonts: Fraunces, Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Hojas de Estilos -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+  <!-- Overlay para sidebar en móvil -->
+  <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+  <div class="main-layout">
+    <!-- Panel Lateral: Idiomas y Ajustes -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-icon">🌿</div>
+          <div class="brand-info">
+            <h1>Language Library</h1>
+            <p>Biblioteca de Idiomas</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-section-title">
+          <span>Idiomas</span>
+          <button id="btn-new-language" class="btn btn-ghost btn-sm" title="Agregar nuevo idioma">＋ Nuevo</button>
+        </div>
+        
+        <div id="language-list-container" class="language-list">
+          <!-- Inyectado dinámicamente con JS -->
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button id="btn-import-json" class="btn btn-ghost btn-sm" title="Importar copia de respaldo">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          <span>Importar</span>
+        </button>
+
+        <button id="btn-export-json" class="btn btn-ghost btn-sm" title="Descargar copia de seguridad JSON">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span>Exportar</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <div class="content-container">
+      <!-- Barra Superior -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="mobile-menu-btn" class="btn-icon mobile-menu-btn" aria-label="Abrir menú de navegación">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="global-search" class="search-input" placeholder="Buscar palabras, frases o textos...">
+            <button id="search-clear-btn" class="btn-ghost search-clear-btn" aria-label="Limpiar búsqueda">✕</button>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button id="btn-practice" class="btn btn-terracotta btn-sm" title="Iniciar modo práctica / Flashcards">
+            <span>✨</span>
+            <span>Practicar Flashcards</span>
+          </button>
+
+          <button id="theme-toggle-btn" class="btn-icon" aria-label="Cambiar tema claro / oscuro" title="Cambiar tema">
+            <span id="theme-icon">🌙</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Área de Páginas y Vistas -->
+      <main class="page-wrapper">
+
+        <!-- ================= VISTA 1: LISTADO DE CONTENIDO ================= -->
+        <section id="view-list" class="view-section active">
+          <!-- Banner Hero del Idioma -->
+          <div class="language-hero">
+            <div class="language-hero-info">
+              <span id="hero-language-flag" class="language-hero-flag">📚</span>
+              <div>
+                <h2 id="hero-language-title" class="language-hero-title">Español</h2>
+                <div id="hero-language-meta" class="language-hero-meta">
+                  <span>0 palabras</span> • <span>0 frases</span> • <span>0 textos</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="language-hero-actions">
+              <button id="btn-new-entry-hero" class="btn btn-primary">
+                <span>＋</span>
+                <span>Agregar contenido</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Barra de Pestañas de Categoría -->
+          <div class="category-tabs-bar">
+            <nav class="category-tabs" aria-label="Categorías lingüísticas">
+              <button class="category-tab active" data-category="palabras">
+                <span>🌱 Palabras</span>
+                <span id="tab-count-palabras" class="tab-count">0</span>
+              </button>
+              <button class="category-tab" data-category="frases">
+                <span>🌿 Frases</span>
+                <span id="tab-count-frases" class="tab-count">0</span>
+              </button>
+              <button class="category-tab" data-category="textos">
+                <span>📜 Textos</span>
+                <span id="tab-count-textos" class="tab-count">0</span>
+              </button>
+            </nav>
+
+            <div class="tab-actions">
+              <button id="btn-new-entry-tab" class="btn btn-secondary btn-sm">
+                <span id="btn-new-entry-tab-text">＋ Nueva palabra</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Grid de Tarjetas -->
+          <div id="content-grid-container" class="content-grid">
+            <!-- Renderizado dinámicamente con JS -->
+          </div>
+
+          <!-- Estado Vacío -->
+          <div id="empty-category-state" class="empty-state" style="display: none;">
+            <div class="empty-state-icon">📖</div>
+            <h3 id="empty-state-title" class="empty-state-title">No hay entradas todavía</h3>
+            <p class="empty-state-desc">Comienza a enriquecer tu biblioteca agregando nuevas palabras, modismos o notas de lectura.</p>
+          </div>
+        </section>
+
+        <!-- ================= VISTA 2: EDITOR MARKDOWN ================= -->
+        <section id="view-editor" class="view-section">
+          <div class="editor-container">
+            <!-- Barra Superior del Editor -->
+            <div class="editor-header">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <button id="btn-editor-back" class="btn btn-ghost btn-sm">
+                  <span>← Volver al listado</span>
+                </button>
+                <div class="editor-breadcrumbs">
+                  <span id="editor-bc-lang">Español</span>
+                  <span>›</span>
+                  <span id="editor-bc-cat" style="text-transform: capitalize;">palabras</span>
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span id="editor-save-status" style="font-size: 0.8rem; color: var(--status-success); font-weight: 500;">✓ Guardado</span>
+                
+                <button id="btn-editor-speak" class="btn-speech" title="Escuchar texto completo">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                </button>
+
+                <button id="btn-editor-download" class="btn btn-secondary btn-sm" title="Descargar como archivo .md">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                  <span>Descargar .md</span>
+                </button>
+
+                <button id="btn-editor-save" class="btn btn-primary btn-sm">
+                  <span>Guardar</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Título Editable -->
+            <div style="padding: 16px 24px 8px; background-color: var(--bg-card); border-bottom: 1px solid var(--border-light);">
+              <input type="text" id="editor-title-input" class="form-input" style="font-family: var(--font-serif); font-size: 1.4rem; font-weight: 700; border: none; padding: 4px 0; background: transparent;" placeholder="Título de la entrada...">
+            </div>
+
+            <!-- Barra de Formato Rápido -->
+            <div class="editor-toolbar">
+              <button class="btn btn-ghost btn-sm toolbar-btn" data-format="bold" title="Negrita (**texto**)"><strong>B</strong></button>
+              <button class="btn btn-ghost btn-sm toolbar-btn" data-format="italic" title="Cursiva (*texto*)"><em>I</em></button>
+              <button class="btn btn-ghost btn-sm toolbar-btn" data-format="h1" title="Título H1">H1</button>
+              <button class="btn btn-ghost btn-sm toolbar-btn" data-format="h2" title="Título H2">H2</button>
+              <button class="btn btn-ghost btn-sm toolbar-btn" data-format="quote" title="Cita (> texto)">❝</button>
+              <button class="btn btn-ghost btn-sm toolbar-btn" data-format="ul" title="Lista con viñetas">• Lista</button>
+              <button class="btn btn-ghost btn-sm toolbar-btn" data-format="code" title="Código (`código`)">&lt;/&gt;</button>
+
+              <div class="toolbar-sep"></div>
+
+              <button class="btn btn-ghost btn-sm editor-view-toggle active" data-mode="split">Split</button>
+              <button class="btn btn-ghost btn-sm editor-view-toggle" data-mode="edit">Editor</button>
+              <button class="btn btn-ghost btn-sm editor-view-toggle" data-mode="preview">Vista Previa</button>
+            </div>
+
+            <!-- Contenedor Split View: Editor + Live Preview -->
+            <div id="editor-split-container" class="editor-split-view">
+              <div class="editor-pane">
+                <textarea id="editor-content-input" class="editor-textarea" placeholder="Escribe aquí tu contenido en Markdown..."></textarea>
+              </div>
+              <div class="preview-pane">
+                <div id="editor-preview-content" class="markdown-body">
+                  <!-- Renderizado de Markdown en vivo -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Pie del Editor -->
+            <div class="editor-footer">
+              <span id="editor-stats">0 palabras • 0 caracteres</span>
+              <span style="font-size: 0.75rem; color: var(--text-faint);">Guardado automático habilitado</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VISTA 3: MODO PRÁCTICA (FLASHCARDS) ================= -->
+        <section id="view-flashcards" class="view-section">
+          <div class="flashcards-container">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+              <button id="btn-flashcard-exit" class="btn btn-ghost btn-sm">
+                <span>← Salir de la práctica</span>
+              </button>
+              <h2 style="font-family: var(--font-serif); font-size: 1.25rem; color: var(--text-main);">
+                Repaso: <span id="practice-language-name">Español</span>
+              </h2>
+              <button id="btn-flashcard-shuffle" class="btn btn-secondary btn-sm" title="Mezclar tarjetas aleatoriamente">
+                <span>🔀 Mezclar</span>
+              </button>
+            </div>
+
+            <!-- Barra de Progreso -->
+            <div class="flashcard-progress-bar">
+              <div id="flashcard-progress" class="flashcard-progress-fill"></div>
+            </div>
+
+            <!-- Tarjeta 3D Giratoria -->
+            <div class="flashcard-wrapper">
+              <div id="flashcard-card" class="flashcard">
+                <!-- Frente de la tarjeta -->
+                <div class="flashcard-face flashcard-front">
+                  <span id="flashcard-type-label" class="flashcard-label">Palabra</span>
+                  <h3 id="flashcard-front-title" class="flashcard-main-text">Perspicaz</h3>
+                  <span class="flashcard-hint">💡 Clic o pulsa [Espacio] para ver el reverso</span>
+                </div>
+
+                <!-- Reverso de la tarjeta -->
+                <div class="flashcard-face flashcard-back">
+                  <span class="flashcard-label">Significado & Notas</span>
+                  <div id="flashcard-back-content" class="markdown-body" style="font-size: 1.05rem; overflow-y: auto; max-height: 200px; margin: auto 0; text-align: left; width: 100%;">
+                    <!-- Render del reverso -->
+                  </div>
+                  <span class="flashcard-hint">💡 Clic para volver al frente</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Controles de Navegación -->
+            <div class="flashcard-controls">
+              <button id="btn-flashcard-prev" class="btn btn-secondary" title="Tarjeta anterior (Flecha Izq)">
+                <span>← Anterior</span>
+              </button>
+
+              <button id="btn-flashcard-flip" class="btn btn-terracotta" title="Girar tarjeta (Espacio)">
+                <span>Voltear Tarjeta ↺</span>
+              </button>
+
+              <button id="btn-flashcard-next" class="btn btn-primary" title="Siguiente tarjeta (Flecha Der)">
+                <span>Siguiente →</span>
+              </button>
+            </div>
+
+            <div style="text-align: center; margin-top: 14px; font-size: 0.85rem; color: var(--text-muted);">
+              <span id="flashcard-counter-label">1 / 1</span>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ================= MODALES ================= -->
+
+  <!-- Modal: Nuevo Idioma -->
+  <div id="modal-new-language" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">🌱 Nuevo Idioma</h3>
+        <button class="btn-icon modal-close" aria-label="Cerrar">✕</button>
+      </div>
+      <form id="form-new-language">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="modal-lang-name">Nombre del idioma:</label>
+            <input type="text" id="modal-lang-name" class="form-input" placeholder="Ej: Español, Italiano, Français, 日本語..." required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Selecciona un icono o bandera:</label>
+            <div id="modal-flag-picker" class="flag-picker-grid">
+              <!-- Inyectado por JS -->
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost modal-close">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Crear Idioma</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Nueva Entrada (Palabra / Frase / Texto) -->
+  <div id="modal-new-entry" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-new-entry-header" class="modal-title">🌿 Nueva Entrada</h3>
+        <button class="btn-icon modal-close" aria-label="Cerrar">✕</button>
+      </div>
+      <form id="form-new-entry">
+        <div class="modal-body">
+          <div class="form-group">
+            <label id="modal-entry-title-label" class="form-label" for="modal-entry-title">Título:</label>
+            <input type="text" id="modal-entry-title" class="form-input" placeholder="Escribe el título o término..." required>
+          </div>
+
+          <div id="modal-entry-body-group" class="form-group">
+            <label class="form-label" for="modal-entry-body">Contenido / Notas iniciales (opcional):</label>
+            <textarea id="modal-entry-body" class="form-textarea" placeholder="Definición, traducción o notas en Markdown..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost modal-close">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar y Editar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Importar Copia de Respaldo -->
+  <div id="modal-import" class="modal-backdrop">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">📂 Importar Respaldo</h3>
+        <button class="btn-icon modal-close" aria-label="Cerrar">✕</button>
+      </div>
+      <form id="form-import-backup">
+        <div class="modal-body">
+          <p style="font-size: 0.88rem; color: var(--text-muted);">
+            Selecciona un archivo JSON de respaldo de <strong>Language Library</strong> para restaurar todos tus idiomas y entradas.
+          </p>
+          <div class="form-group">
+            <label class="form-label" for="modal-import-file">Archivo JSON:</label>
+            <input type="file" id="modal-import-file" class="form-input" accept=".json" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost modal-close">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Restaurar Biblioteca</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Contenedor de Notificaciones Toast -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Módulos JavaScript -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
